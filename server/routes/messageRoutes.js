@@ -1,11 +1,12 @@
 import express from "express"
-import { protectRoutes } from "../middlewares/auth"
-import { getUserForSidebar, markMessagesAsSeen } from "../controllers/messageController"
+import { protectRoutes } from "../middlewares/auth.js"
+import { getUserForSidebar, markMessagesAsSeen, sendMessage } from "../controllers/messageController.js"
 
 const messageRouter = express.Router()
 
 messageRouter.get("/", protectRoutes, getUserForSidebar)
 messageRouter.get("/:id", protectRoutes, getUserForSidebar)
-messageRouter.get("mark/:id", protectRoutes, markMessagesAsSeen)
+messageRouter.put("mark/:id", protectRoutes, markMessagesAsSeen)
+messageRouter.post("/send/:id", protectRoutes, sendMessage)
 
 export default messageRouter

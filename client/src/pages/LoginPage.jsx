@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import assets from '../assets/assets'
+import { AuthContext } from '../../context/AuthContext'
 
 const LoginPage = () => {
   const [currState, setCurrState] = useState("Sign Up")
@@ -14,11 +15,15 @@ const LoginPage = () => {
     setIsDataSubmitted(false)
   }
 
+  const {login} = useContext(AuthContext)
+
   const onSubmitHandler = (event) =>{
     event.preventDefault();
     if(currState === "Sign Up" && !isDataSubmitted){
       setIsDataSubmitted(true);
-    } 
+    }
+    
+    login(currState == "Sign Up" ? "signup" : "login", {fullName, email, password, bio})
   }
 
   return (
@@ -86,7 +91,7 @@ const LoginPage = () => {
         </button>
 
         <label className='flex items-center gap-2 text-sm text-gray-300'>
-          <input type="checkbox" className='accent-violet-600' />
+          <input type="checkbox" className='accent-violet-600' required/>
           <span>Agree to the Terms of Use & Privacy Policy</span>
         </label>
 

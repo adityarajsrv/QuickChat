@@ -1,7 +1,9 @@
 import cloudinary from "../lib/cloudinary.js";
 import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import { generateToken } from "../lib/utils.js";
 
-export const signUp = async()=>{
+export const signup = async(req, res)=>{
     const {fullName, email, password, bio} = req.body;
 
     try{
@@ -23,7 +25,7 @@ export const signUp = async()=>{
             bio
         });
         const token = generateToken(newUser._id);
-
+        await newUser.save();
         res.json({success: true, userData: newUser, token, message: "User created successfully"});
 
     }catch(error){
